@@ -419,3 +419,41 @@ footer {
 .task-details-container input[type="date"] {
   width: 100%;
 }
+
+/* CSS code for Task Hive website */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.navbar img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.navbar-nav .nav-link {
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.navbar-nav .nav-item-button a.btn:first-child {
+  background-color: #003249;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.navbar-nav .nav-item a.btn:last-child {
+  margin-left: 10px;
+  background-color: #ccdbdc;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+footer p {
+  padding: 10px;
+}
