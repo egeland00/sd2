@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  .tasks-container
+    h2 Tasks
+    hr
+    table.custom-table
+      thead
+        tr
+          th Description
+          th Category
+          th Due Date
+          th Status
+          th Actions
+      tbody
+        each task in tasks
+          tr
+            td= task.description
+            td= task.category
+            td= new Date(task.due_date).toLocaleDateString()
+            td= task.is_complete ? 'Completed' : 'Pending'
+            td
+              a(href=`/tasks/${task.id}`) Edit
+              form(method='post' action=`/tasks/${task.id}` style='display: inline-block;')
+                input(type='hidden' name='_method' value='DELETE')
+                button(type='submit') Delete
+    button#add-task-btn(type='button') Create New Task
+    form#add-task-form(method='post' action='/tasks' hidden)
+      label(for='description') Task Description:
+      input(type='text' id='description' name='description')
+      label(for='category') Category:
+      input(type='text' id='category' name='category')
+      label(for='due_date') Due Date:
+      input(type='date' id='due_date' name='due_date')
+      button(type='submit') Add Task
+  script.
+    const addTaskBtn = document.getElementById('add-task-btn');
+    const addTaskForm = document.getElementById('add-task-form');
+
+    addTaskBtn.addEventListener('click', () => {
+      addTaskForm.hidden = !addTaskForm.hidden;
+    });

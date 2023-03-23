@@ -1,0 +1,421 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1rem;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.logo {
+  margin-right: auto;
+}
+
+ul.menu {
+  display: flex;
+  list-style-type: none;
+}
+
+li {
+  margin-right: 1rem;
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.button {
+  font-weight: 600;
+  background-color: #000000;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background-color: rgb(255, 255, 255);
+  font-family: 'Open Sans', sans-serif;
+}
+table.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  font-size: 1em;
+}
+
+table.custom-table th {
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+table.custom-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table.custom-table tr:hover {
+  background-color: #f2f2f2;
+}
+
+table.custom-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+}
+
+.user-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.user-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-details {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.user-details h2 {
+  margin-bottom: 0.5rem;
+}
+
+.user-details p {
+  margin-bottom: 0.2rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 5px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #0066cc;
+  border-radius: 5px;
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 100px auto;
+  width: 300px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+input[type="email"],
+input[type="text"], 
+input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"] {
+  background-color: #0077c0;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #0063a8;
+}
+
+.error {
+  color: red;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Main section styles */
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Hero section styles */
+section.hero {
+  background-color: #F5F5F5;
+  text-align: center;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  margin-bottom: 40px;
+}
+
+section.hero h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+section.hero p {
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+section.hero .cta {
+  display: inline-block;
+  background-color: #0095F6;
+  color: #fff;
+  font-size: 18px;
+  padding: 16px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+section.hero .cta:hover {
+  background-color: #0080D7;
+}
+
+/* Features section styles */
+section.features {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+section.features h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+section.features ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section.features li {
+  max-width: 300px;
+}
+
+section.features img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+section.features h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+section.features p {
+  font-size: 16px;
+}
+
+/* Testimonials section styles */
+section.testimonials {
+  text-align: center;
+}
+
+section.testimonials h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+section.testimonials ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section.testimonials li {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+section.testimonials img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+}
+
+section.testimonials blockquote {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+section.testimonials cite {
+  font-size: 18px;
+  font-weight: bold;
+}
+/* Achievement system section styles */
+section.achievements {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+section.achievements h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+section.achievements p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.level-bar {
+  width: 80%;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.level-progress {
+  height: 100%;
+  background-color: #0095F6;
+}
+
+section.achievements ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+section.achievements li {
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+section.achievements img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+section.achievements h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+section.achievements p {
+  font-size: 16px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.approaching-dates {
+  list-style: none;
+  padding: 0;
+}
+
+.approaching-dates li {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.approaching-dates li span {
+  margin-right: 10px;
+}
+
+.approaching-dates li i {
+  font-size: 20px;
+  color: #aaa;
+}
+
+.approaching-dates li .due-date {
+  font-weight: bold;
+}
+
+.approaching-dates li .due-date.orange {
+  color: orange;
+}
+
+.approaching-dates li .due-date.green {
+  color: green;
+}
+
+.success {
+  text-align: center;
+  color: green;
+}
+
+.legacy-box {
+  background-color: #F5F5F5;
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  max-width: 600px; /* optional */
+  margin: 0 auto; /* optional */
+}
+
+.task-details-container input[type="text"],
+.task-details-container input[type="date"],
+.task-details-container input[type="checkbox"] {
+  font-size: 14px;
+  padding: 8px;
+}
+.task-details-container input[type="text"],
+.task-details-container input[type="date"] {
+  width: 100%;
+}

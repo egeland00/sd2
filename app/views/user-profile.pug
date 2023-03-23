@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .user-profile-container
+    .user-avatar
+      img(src='/images/avatar.png' alt='User Avatar')
+    .user-details
+      h2= user.fullname
+      p Email: #{user.email}
+      p Level: #{user.level}
+      p Points: #{user.points}
+      .progress-bar
+        .progress-bar-fill(style=`width: ${(user.points / 10) * 100}%`)
+
+      hr
+      p Total number of tasks to complete: #{tasks.totalTasks}
+      p Total number of tasks completed till now: #{tasks.completedTasks}
+      h3 Approaching due dates:
+      ul.approaching-dates
+        each task, index in tasks.dueTasks
+          li(style=`color: ${new Date(task.due_date) > Date.now() ? (new Date(task.due_date) - Date.now() <= 172800000 ? 'orange' : 'green') : 'red'}`) #{index + 1}. #{task.description} (Due: #{new Date(task.due_date).toLocaleDateString()})
+    
+    form(method='post' action=`/user-profile/${user.id}/tasks`)
+      button(type='submit') View Tasks
