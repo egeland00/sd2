@@ -1,46 +1,45 @@
-// Import express.js
+// Import necessary modules
 const express = require("express");
-
-// Create express app
-var app = express();
-
-// Add static files location
-app.use(express.static("static"));
-
-// Get the functions in the db.js file to use
 const db = require('./services/db');
 
-// Create a route for root - /
+// Create express app
+const app = express();
+
+// Set view engine and views directory
+app.set('view engine', 'pug');
+app.set('views', './app/views');
+
+// Set static files location
+app.use(express.static("./static"));
+
+app.use(express.urlencoded({ extended: true }));
+// Routes
 app.get("/", function(req, res) {
-    res.send("Hello world!");
+  res.render("index");
 });
 
-// Create a route for testing the db
-app.get("/db_test", function(req, res) {
-    // Assumes a table called test_table exists in your database
-    sql = 'select * from test_table';
-    db.query(sql).then(results => {
-        console.log(results);
-        res.send(results)
-    });
-});
-
-// Create a route for /goodbye
-// Responds to a 'GET' request
-app.get("/goodbye", function(req, res) {
-    res.send("Goodbye world!");
-});
-
-// Create a dynamic route for /hello/<name>, where name is any value provided by user
-// At the end of the URL
-// Responds to a 'GET' request
-app.get("/hello/:name", function(req, res) {
-    // req.params contains any parameters in the request
-    // We can examine it in the console for debugging purposes
-    console.log(req.params);
-    //  Retrieve the 'name' parameter and use it in a dynamically generated page
-    res.send("Hello " + req.params.name);
-});
+app.get('/user-profile/:id', async function(req, res) {
+    try {
+      const userId = req.params.id;
+      const userSql = 'SELECT id, CONCAT(firstname, " ", lastname) AS fullname, email, level, points FROM user WHERE id = ?';
+      const users = await db.query(userSql, [userId]);
+      const user = users[0];
+  
+      const totalTasksSql = 'SELECT COUNT(*) AS totalTasks FROM task WHERE user_id = ? AND completed = 0';
+      const totalTasks = (await db.query(totalTasksSql, [userId]))[0].totalTasks;
+  
+      const completedTasksSql = 'SELECT COUNT(*) AS completedTasks FROM task WHERE user_id = ? AND completed = 1';
+      const completedTasks = (await db.query(completedTasksSql, [userId]))[0].completedTasks;
+  
+      const dueTasksSql = 'SELECT id, description, due_date FROM task WHERE user_id = ? AND completed = 0 AND due_date > NOW() ORDER BY due_date';
+      const dueTasks = await db.query(dueTasksSql, [userId]);
+  
+      res.render('user-profile', { title: 'User Profile', user, tasks: { totalTasks, completedTasks, dueTasks } });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal server error');
+    }
+  });
 
 // Start server on port 3000
 app.listen(3000,function(){
