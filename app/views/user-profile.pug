@@ -20,5 +20,5 @@ block content
         each task, index in tasks.dueTasks
           li(style=`color: ${new Date(task.due_date) > Date.now() ? (new Date(task.due_date) - Date.now() <= 172800000 ? 'orange' : 'green') : 'red'}`) #{index + 1}. #{task.description} (Due: #{new Date(task.due_date).toLocaleDateString()})
     
-    form(method='post' action=`/user-profile/${user.id}/tasks`)
+    form(method='get' action=`/user-profile/${user.id}/tasks`)
       button(type='submit') View Tasks

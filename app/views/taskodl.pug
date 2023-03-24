@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  .task-details-container
+    .legacy-box
+      h2= task.title
+      hr
+      p Due Date: #{new Date(task.due_date).toLocaleDateString()}
+      p Category: #{task.category}
+      p Status: #{task.completed ? 'Completed' : 'Pending'}
+      form(method='post' action=`/tasks/${task.id}`)
+        label(for='description') Task Description:
+        input(type='text' id='description' name='description' value=`${task.description}`)
+        label(for='category') Category:
+        input(type='text' id='category' name='category' value=`${task.category}`)
+        label(for='due_date') Due Date:
+        input(type='date' id='due_date' name='due_date' value=`${new Date(task.due_date).toISOString().substr(0, 10)}`)
+        label(for='completed') Is Complete:
+        input(type='checkbox' id='completed' name='completed' checked=task.completed)
+        button(type='submit') Update Task
+      hr
+    form(method='post' action='/tasks')
+      label(for='title') Task Title:
+      input(type='text' id='title' name='title')
+      label(for='description') Task Description:
+      input(type='text' id='description' name='description')
+      label(for='category') Category:
+      input(type='text' id='category' name='category')
+      label(for='due_date') Due Date:
+      input(type='date' id='due_date' name='due_date')
+      button(type='submit') Add Task
+    if tasks
+      if tasks.length === 0
+        p No tasks found.
+      else
+        table.custom-table
+          thead
+            tr
+              th Title
+              th Description
+              th Category
+              th Due Date
+              th Status
+              th Actions
+          tbody
+            each task in tasks
+              tr
+                td= task.title
+                td= task.description
+                td= task.category
+                td= new Date(task.due_date).toLocaleDateString()
+                td= task.completed ? 'Completed' : 'Pending'
+                td
+                  a(href=`/tasks/${task.id}`) Edit
+                  form(method='post' action=`/tasks/${task.id}` style='display: inline-block;')
+                    input(type='hidden' name='_method' value='DELETE')
+                    button(type='submit') Delete

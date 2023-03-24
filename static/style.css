@@ -103,13 +103,13 @@ table.custom-table td {
 .progress-bar {
   width: 100%;
   height: 10px;
-  background-color: #ccc;
+  background-color: #6f6c6c;
   border-radius: 5px;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background-color: #0066cc;
+  background-color: #0fdc00;
   border-radius: 5px;
 }
 
