@@ -1,0 +1,83 @@
+.user-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.user-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-details {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.user-details h2 {
+  margin-bottom: 0.5rem;
+}
+
+.user-details p {
+  margin-bottom: 0.2rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #6f6c6c;
+  border-radius: 5px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #0fdc00;
+  border-radius: 5px;
+}
+
+.approaching-dates {
+  list-style: none;
+  padding: 0;
+}
+
+.approaching-dates li {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.approaching-dates li span {
+  margin-right: 10px;
+}
+
+.approaching-dates li i {
+  font-size: 20px;
+  color: #aaa;
+}
+
+.approaching-dates li .due-date {
+  font-weight: bold;
+}
+
+.approaching-dates li .due-date.orange {
+  color: orange;
+}
+
+.approaching-dates li .due-date.green {
+ color: green;
+}
