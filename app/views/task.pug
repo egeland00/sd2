@@ -21,15 +21,18 @@ block content
             td= task.is_complete ? 'Completed' : 'Not Completed'
             td
               a(href=`/tasks/${task.id}`) Edit
-              form(method='post' action=`/tasks/${task.id}` style='display: inline-block;')
+              form(method='post' action=`/user-profile/${user.id}/tasks/${task.id}?_method=DELETE` style='display: inline-block;')
                 input(type='hidden' name='_method' value='DELETE')
-                button(type='button') Delete
+                button(type='submit') Delete
               if !task.is_complete
                 form(method='post' action=`/tasks/${task.id}`)
                   input(type='hidden' name='_method' value='PATCH')
                   button(type='submit') Mark as Complete
     button#add-task-btn(type='button') Create New Task
-    form#add-task-form(method='post' action='/tasks' hidden)
+    form#add-task-form(method='post' action=`/user-profile/${user.id}/tasks` hidden)
+      input(type='hidden' name='userId' value= user.id)
+      label(for='title') Task Title:
+      input(type='text' id='title' name='title')
       label(for='description') Task Description:
       input(type='text' id='description' name='description')
       label(for='category') Category:
@@ -37,6 +40,10 @@ block content
       label(for='due_date') Due Date:
       input(type='date' id='due_date' name='due_date')
       button(type='submit') Add Task
+
+  form(method='get' action=`/user-profile/${user.id}`)
+    button(type='submit') Back to Profile    
+
   script.
     const addTaskBtn = document.getElementById('add-task-btn');
     const addTaskForm = document.getElementById('add-task-form');

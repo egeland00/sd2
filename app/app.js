@@ -114,50 +114,56 @@ app.get('/login', function(req, res) {
     }
   });
   
-  app.get('/user-profile/:id/tasks', async (req, res) => {
-    try {
-      const userId = req.params.id;
-      const tasksSql = 'SELECT * FROM Task WHERE user_id = ? AND completed = 0';
-      const tasks = await db.query(tasksSql, [userId]);
-      res.render('task', { title: 'Tasks', tasks: tasks });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Internal server error');
-    }
-  });
-
-  app.post('/user-profile/:id/tasks', async (req, res) => {
-    try {
-      const { description, category, due_date } = req.body;
-      const userId = req.params.id;
-      const newTaskSql = 'INSERT INTO Task (user_id, description, category, due_date) VALUES (?, ?, ?, ?)';
-      await db.query(newTaskSql, [userId, description, category, due_date]);
-      res.redirect(`/user-profile/${userId}/tasks`);
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Internal server error');
-    }
-  });
-  
-  
 // set up a route for rendering a single incomplete task
-app.get('/tasks/:id', async (req, res) => {
+app.get('/user-profile/:id/tasks', async (req, res) => {
   try {
-    const taskId = req.params.id;
-    const taskSql = 'SELECT * FROM Task WHERE id = ? AND completed = 0';
-    const task = await db.query(taskSql, [taskId]);
+    const userId = req.params.id;
+    const tasksSql = 'SELECT * FROM Task WHERE user_id = ? AND completed = 0';
+    const tasks = await db.query(tasksSql, [userId]);
 
-    if (task.length === 0) {
-      // Render a 404 error page if the task doesn't exist
-      res.status(404).render('error', { message: 'Task not found' });
-    } else {
-      res.render('task', { title: 'Task Details', task: task[0] });
-    }
+    const userSql = 'SELECT * FROM User WHERE id = ?';
+    const user = await db.query(userSql, [userId])[0];
+
+    res.render('task', { title: 'Tasks', tasks: tasks, user: { id: userId } });
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal server error');
   }
 });
+  
+  
+
+app.post('/user-profile/:id/tasks', async (req, res) => {
+  try {
+    const { title, description, category, due_date } = req.body;
+    const userId = req.params.id;
+    const newTaskSql = 'INSERT INTO Task (user_id, title, description, category, due_date) VALUES (?, ?, ?, ?, ?)';
+    await db.query(newTaskSql, [userId, title, description, category, due_date]);
+    res.redirect(`/user-profile/${userId}/tasks`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+});
+
+// set up a route to delete a task
+app.delete('/user-profile/:userId/tasks/:taskId', async (req, res) => {
+  try {
+    const { userId, taskId } = req.params;
+    const deleteTaskSql = 'DELETE FROM Task WHERE id = ? AND user_id = ?';
+    await db.query(deleteTaskSql, [taskId, userId]);
+    res.redirect('back');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+});
+
+
+
+  
+
+
   
 
 
