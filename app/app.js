@@ -18,25 +18,7 @@ app.get("/", function(req, res) {
   res.render("index");
 });
 
-// Get the models
-//const { user } = require("./models/user");
-
-// User Profile Page
-// User Profile Page
-//app.get('/user-profile', async function(req, res) {
-  //  try {
-    //  const sql = 'SELECT id, CONCAT(firstname, " ", lastname) AS fullname, email, level, points FROM user';
-      //const users = await db.query(sql);
-      //console.log(users);
-      //res.render('user-profile', { title: 'User Profile', user: users[0] });
-    //} catch (err) {
-      //console.error(err);
-      //res.status(500).send('Internal server error');
-    //}
-  //});
-  
-  
-  app.get('/user-profile/:id', async function(req, res) {
+app.get('/user-profile/:id', async function(req, res) {
     try {
       const userId = req.params.id;
       const userSql = 'SELECT id, CONCAT(firstname, " ", lastname) AS fullname, email, level, points FROM user WHERE id = ?';
