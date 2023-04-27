@@ -13,114 +13,165 @@ app.set('views', './app/views');
 app.use(express.static("./static"));
 
 app.use(express.urlencoded({ extended: true }));
+
+const methodOverride = require('method-override');
+
+// Get the models
+const { User } = require("./models/user");
+const { Task } = require("./models/task");
+const { Profile } = require("./models/profile");
+
+// Set the sessions
+var session = require('express-session');
+app.use(session({
+  secret: 'secretkeysdfjsflyoifasd',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+
+// Routes
 // Routes
 app.get("/", function(req, res) {
-  res.render("index");
+  const loggedIn = req.session.uid ? true : false;
+  res.render("index", { title: 'Home', loggedIn: loggedIn });
 });
 
-app.get('/user-profile/:id', async function(req, res) {
-    try {
-      const userId = req.params.id;
-      const userSql = 'SELECT id, CONCAT(firstname, " ", lastname) AS fullname, email, level, points FROM user WHERE id = ?';
-      const users = await db.query(userSql, [userId]);
-      const user = users[0];
-  
-      const totalTasksSql = 'SELECT COUNT(*) AS totalTasks FROM task WHERE user_id = ? AND completed = 0';
-      const totalTasks = (await db.query(totalTasksSql, [userId]))[0].totalTasks;
-  
-      const completedTasksSql = 'SELECT COUNT(*) AS completedTasks FROM task WHERE user_id = ? AND completed = 1';
-      const completedTasks = (await db.query(completedTasksSql, [userId]))[0].completedTasks;
-  
-      const dueTasksSql = 'SELECT id, description, due_date FROM task WHERE user_id = ? AND completed = 0 AND due_date > NOW() ORDER BY due_date';
-      const dueTasks = await db.query(dueTasksSql, [userId]);
-  
-      res.render('user-profile', { title: 'User Profile', user, tasks: { totalTasks, completedTasks, dueTasks } });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Internal server error');
-    }
-  });
-  
-  
-  
+//Require login function
+function requireLogin(req, res, next) {
+  if (req.session.uid) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+}
 
+app.get('/user-profile/:id', requireLogin, async function(req, res) {
+  try {
+    const loggedIn = req.session.uid ? true : false;
+    const loggedInUserId = req.session.uid || null;
+    const userId = req.params.id;
+
+    const profile = new Profile(userId);
+    const user = await profile.getUserProfile();
+    const totalTasks = await profile.getTotalTasks();
+    const completedTasks = await profile.getCompletedTasks();
+    const dueTasks = await profile.getDueTasks();
+
+    res.render('user-profile', { title: 'User Profile', user, tasks: { totalTasks, completedTasks, dueTasks }, loggedIn: loggedIn, loggedInUserId: loggedInUserId });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+});;
+  
+  
+  
+//REGISER DONE MODEL
 
 // Register Page
 app.get('/register', function (req, res) {
-  res.render('register', { title: 'Register' });
+  const loggedIn = req.session.uid ? true : false;
+  const userId = req.session.uid || null;
+  res.render('register', { title: 'Register', loggedIn: loggedIn, userId: userId });
 });
 
-app.post('/register', async function(req, res) {
+
+app.post('/set-password', async function (req, res) {
+  const params = req.body;
+  const user = new User(params.email);
   try {
-    const { firstname, lastname, email, password } = req.body;
-    const sql = 'INSERT INTO user (firstname, lastname, email, password) VALUES (?, ?, ?, ?)';
-    const result = await db.query(sql, [firstname, lastname, email, password]);
-    console.log(result);
-    res.redirect('/login?success=1');
+    const uId = await user.getIdFromEmail();
+    if (uId) {
+      // If a valid, existing user is found, set the password and redirect to the users single-student page
+      await user.setUserPassword(params.password);
+      res.send('COME BACK TO ADDING ROUTE FOR USER TASK PAGE!!!!!!!');
+    } else {
+      // If no existing user is found, add a new one
+      // Pass firstname, lastname, and password when calling addUser()
+      const newId = await user.addUser(params.firstname, params.lastname, params.password);
+      res.redirect('/login?success=1');
+    }
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Internal server error');
+    console.error(`Error while adding password `, err.message);
   }
 });
 
+
 app.get('/login', function(req, res) {
+  const loggedIn = req.session.uid ? true : false;
+  const userId = req.session.uid || null;
   const success = req.query.success;
-  res.render('login', { title: 'Login', success: success });
-});  
+  res.render('login', { title: 'Login', success: success, loggedIn: loggedIn, userId: userId });
+});
+ 
 
   
-// Login Page
-app.get('/login', function(req, res) {
-    res.render('login', { title: 'Login' });
-  });
-  
-  app.post('/login', async function(req, res) {
-    const { email, password } = req.body;
-  
-    try {
-      // Check the database for the user
-      const [rows, fields] = await db.query('SELECT * FROM User WHERE email = ? AND password = ?', [email, password]);
-  
-      if (rows.length === 1) {
-        // If the user exists, set the user session and redirect to the user profile page
-        req.session.user = { email };
-        return res.redirect('/user-profile');
-      } else {
-        // If the user does not exist or the password is incorrect, display an error message
-        const message = 'Invalid email or password';
-        return res.render('login', { title: 'Login', message });
-      }
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Internal server error');
+// Check submitted email and password pair
+app.post('/authenticate', async function (req, res) {
+params = req.body;
+var user = new User(params.email);
+try {
+    uId = await user.getIdFromEmail();
+    if (uId) {
+        match = await user.authenticate(params.password);
+        if (match) {
+            req.session.uid = uId;
+            req.session.loggedIn = true;
+            console.log(req.session);
+            res.redirect('/user-profile/' + uId);
+        }
+        else {
+            // TODO improve the user journey here
+            res.send('invalid password');
+        }
     }
-  });
+    else {
+        res.send('invalid email');
+    }
+} catch (err) {
+    console.error(`Error while comparing `, err.message);
+}
+});
+
+// Logout
+app.get('/logout', function (req, res) {
+  req.session.destroy();
+  res.redirect('/');
+});
   
 // set up a route for rendering a single incomplete task
-app.get('/user-profile/:id/tasks', async (req, res) => {
+app.get('/user-profile/:id/tasks', requireLogin, async (req, res) => {
   try {
     const userId = req.params.id;
-    const tasksSql = 'SELECT * FROM Task WHERE user_id = ? AND completed = 0';
-    const tasks = await db.query(tasksSql, [userId]);
 
-    const userSql = 'SELECT * FROM User WHERE id = ?';
-    const user = await db.query(userSql, [userId])[0];
+    // Call the getIncompleteTasks method directly using the Task class
+    const tasks = await Task.getIncompleteTasks(userId);
 
-    res.render('task', { title: 'Tasks', tasks: tasks, user: { id: userId } });
+    // Call the getUserById method directly using the User class
+    const user = await User.getUserById(userId);
+
+    const loggedIn = req.session.uid ? true : false;
+    const loggedInUserId = req.session.uid || null;
+
+    res.render('task', { title: 'Tasks', tasks: tasks, user: { id: userId }, loggedIn: loggedIn, loggedInUserId: loggedInUserId });
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal server error');
   }
 });
-  
-  
 
-app.post('/user-profile/:id/tasks', async (req, res) => {
+
+// adding task
+
+app.post('/user-profile/:id/tasks', requireLogin, async (req, res) => {
   try {
     const { title, description, category, due_date } = req.body;
     const userId = req.params.id;
-    const newTaskSql = 'INSERT INTO Task (user_id, title, description, category, due_date) VALUES (?, ?, ?, ?, ?)';
-    await db.query(newTaskSql, [userId, title, description, category, due_date]);
+
+    // Call the addTask method using the Task class
+    await Task.addTask(userId, title, description, category, due_date);
+
     res.redirect(`/user-profile/${userId}/tasks`);
   } catch (err) {
     console.error(err);
@@ -128,13 +179,19 @@ app.post('/user-profile/:id/tasks', async (req, res) => {
   }
 });
 
-// set up a route to delete a task
-app.delete('/user-profile/:userId/tasks/:taskId', async (req, res) => {
+
+app.get('/user-profile/:userId/tasks/:taskId', requireLogin, async (req, res) => {
   try {
-    const { userId, taskId } = req.params;
-    const deleteTaskSql = 'DELETE FROM Task WHERE id = ? AND user_id = ?';
-    await db.query(deleteTaskSql, [taskId, userId]);
-    res.redirect('back');
+    const userId = req.params.userId;
+    const taskId = req.params.taskId;
+
+    const taskModel = new Task(userId);
+    const task = await taskModel.getTaskById(taskId);
+
+    const loggedIn = req.session.uid ? true : false;
+    const loggedInUserId = req.session.uid || null;
+
+    res.render('task', { title: 'Tasks', task: task, user: { id: userId }, loggedIn: loggedIn, loggedInUserId: loggedInUserId });
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal server error');
@@ -143,10 +200,43 @@ app.delete('/user-profile/:userId/tasks/:taskId', async (req, res) => {
 
 
 
-  
+// set up a route to delete a task
+app.delete('/user-profile/:userId/tasks/:taskId', requireLogin, async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
+    // make sure userId is being accessed correctly
+    const userId = req.params.userId;
+
+    // Call the deleteTask method using the Task class
+    await Task.deleteTask(taskId);
+
+    res.status(200).json({ message: 'Task deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+});
+;
 
 
-  
+// set up a route to update the completed status of a task
+app.post('/user-profile/:userId/tasks/:taskId/completed', requireLogin, async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
+    const userId = req.params.userId;
+    const completed = req.body.completed;
+
+    // Call the updateCompletedStatus method using the Task class
+    await Task.updateCompletedStatus(taskId, userId, completed);
+
+    res.redirect(`/user-profile/${userId}/tasks`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+});
+
+
 
 
 // Start server

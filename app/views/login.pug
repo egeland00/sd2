@@ -9,7 +9,7 @@ block content
   if success
     p.success= "Successfully registered!"
 
-  form(action='/login', method='POST')
+  form(action='/authenticate', method='POST')
     div.form-group
       label(for='email') Email
       input.form-control(type='email', id='email', name='email', required=true)

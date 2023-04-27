@@ -19,10 +19,18 @@ html(lang="en")
           li.nav-item
             a.nav-link(href="#") Contact Us
         ul.navbar-nav.ml-auto
-          li.nav-item.nav-item-button
-            a.btn(href='/register') Get Started
-          li.nav-item
-            a.btn(href='/login') Log In
+          if loggedIn
+            li.nav-item.nav-item-button
+              a.btn(href='/user-profile/' + uId) User Profile
+          else
+            li.nav-item.nav-item-button
+              a.btn(href='/register') Get Started
+          if loggedIn
+            li.nav-item
+              a.btn(href='/logout') Log Out
+          else
+            li.nav-item
+              a.btn(href='/login') Log In
     main 
       block content
     footer

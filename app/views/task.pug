@@ -18,7 +18,14 @@ block content
             td= task.description
             td= task.category
             td= new Date(task.due_date).toLocaleDateString()
-            td= task.is_complete ? 'Completed' : 'Not Completed'
+            td
+              if task.is_complete 
+                span Completed
+              else
+                form(action='/user-profile/' + user.id + '/tasks/' + task.id + '/completed', method='POST')
+                  input(type='hidden', name='_method', value='PUT')
+                  input(type='checkbox', name='completed', value='true', onchange='this.form.submit()', checked=task.completed)
+                  span #{task.completed ? 'Completed' : 'Not Completed'}
             td
               a(href=`/tasks/${task.id}`) Edit
               form(method='delete' action=`/user-profile/${user.id}/tasks/${task.id}?_method=DELETE` style='display: inline-block;')
@@ -47,7 +54,6 @@ block content
   script.
     const addTaskBtn = document.getElementById('add-task-btn');
     const addTaskForm = document.getElementById('add-task-form');
-
     addTaskBtn.addEventListener('click', () => {
       addTaskForm.hidden = !addTaskForm.hidden;
     });
