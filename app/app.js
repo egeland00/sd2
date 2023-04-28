@@ -5,6 +5,7 @@ const db = require('./services/db');
 // Create express app
 const app = express();
 
+const DEBUG = true;
 // Set view engine and views directory
 app.set('view engine', 'pug');
 app.set('views', './app/views');
@@ -15,6 +16,8 @@ app.use(express.static("./static"));
 app.use(express.urlencoded({ extended: true }));
 
 const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 
 // Get the models
 const { User } = require("./models/user");
@@ -201,33 +204,12 @@ app.get('/user-profile/:userId/tasks/:taskId', requireLogin, async (req, res) =>
 
 
 // set up a route to delete a task
-app.delete('/user-profile/:userId/tasks/:taskId', requireLogin, async (req, res) => {
+app.delete('/user-profile/:userId/tasks/:taskId/delete', requireLogin, async (req, res) => {
   try {
-    const taskId = req.params.taskId;
-    // make sure userId is being accessed correctly
     const userId = req.params.userId;
+    const taskId = req.params.taskId;
 
-    // Call the deleteTask method using the Task class
     await Task.deleteTask(taskId);
-
-    res.status(200).json({ message: 'Task deleted successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Internal server error');
-  }
-});
-;
-
-
-// set up a route to update the completed status of a task
-app.post('/user-profile/:userId/tasks/:taskId/completed', requireLogin, async (req, res) => {
-  try {
-    const taskId = req.params.taskId;
-    const userId = req.params.userId;
-    const completed = req.body.completed;
-
-    // Call the updateCompletedStatus method using the Task class
-    await Task.updateCompletedStatus(taskId, userId, completed);
 
     res.redirect(`/user-profile/${userId}/tasks`);
   } catch (err) {
@@ -235,6 +217,46 @@ app.post('/user-profile/:userId/tasks/:taskId/completed', requireLogin, async (r
     res.status(500).send('Internal server error');
   }
 });
+
+
+
+
+// set up a route to update the completed status of a task
+app.post('/user-profile/:userId/tasks/:taskId/completed', requireLogin, async (req, res) => {
+  try {
+    const userId = req.session.uid;
+    const taskId = req.params.taskId;
+    const completed = req.body.completed === 'true';
+
+    console.log('userId:', userId, 'taskId:', taskId, 'completed:', completed);
+
+    await Task.updateCompletedStatus(taskId, userId, completed);
+
+    res.redirect(`/user-profile/${userId}/tasks`);
+  } catch (err) {
+    console.error('Error in updating task completion status:', err);
+    if (DEBUG) {
+      res.status(500).send(`Internal server error: ${err.message}`);
+    } else {
+      res.status(500).send('Internal server error');
+    }
+  }
+});
+
+
+
+// help server not to crash
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at:', p, 'reason:', reason);
+  // Application specific logging, throwing an error, or other logic here
+});
+
+
+
+
+
+
+
 
 
 

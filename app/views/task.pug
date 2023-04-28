@@ -2,15 +2,25 @@ extends layout
 
 block content
   .tasks-container
-    h2 Tasks
-    hr
+    button#add-task-btn(type='button') Create New Task
+    .overlay#add-task-overlay
+      form#add-task-form(method='post' action=`/user-profile/${user.id}/tasks` hidden)
+        input(type='hidden' name='userId' value= user.id)
+        label(for='title') Task Title:
+        input(type='text' id='title' name='title')
+        label(for='description') Task Description:
+        input(type='text' id='description' name='description')
+        label(for='category') Category:
+        input(type='text' id='category' name='category')
+        label(for='due_date') Due Date:
+        input(type='date' id='due_date' name='due_date')
+        button(type='submit') Add Task
     table.custom-table
       thead
         tr
           th Description
           th Category
           th Due Date
-          th Status
           th Actions
       tbody
         each task in tasks
@@ -19,41 +29,52 @@ block content
             td= task.category
             td= new Date(task.due_date).toLocaleDateString()
             td
-              if task.is_complete 
-                span Completed
-              else
-                form(action='/user-profile/' + user.id + '/tasks/' + task.id + '/completed', method='POST')
-                  input(type='hidden', name='_method', value='PUT')
-                  input(type='checkbox', name='completed', value='true', onchange='this.form.submit()', checked=task.completed)
-                  span #{task.completed ? 'Completed' : 'Not Completed'}
-            td
               a(href=`/tasks/${task.id}`) Edit
-              form(method='delete' action=`/user-profile/${user.id}/tasks/${task.id}?_method=DELETE` style='display: inline-block;')
-                input(type='hidden' name='_method' value='DELETE')
+              form(action=`/user-profile/${user.id}/tasks/${task.id}/delete?_method=DELETE`, method='POST')
                 button(type='submit') Delete
-              if !task.is_complete
-                form(method='post' action=`/tasks/${task.id}`)
-                  input(type='hidden' name='_method' value='PATCH')
-                  button(type='submit') Mark as Complete
-    button#add-task-btn(type='button') Create New Task
-    form#add-task-form(method='post' action=`/user-profile/${user.id}/tasks` hidden)
-      input(type='hidden' name='userId' value= user.id)
-      label(for='title') Task Title:
-      input(type='text' id='title' name='title')
-      label(for='description') Task Description:
-      input(type='text' id='description' name='description')
-      label(for='category') Category:
-      input(type='text' id='category' name='category')
-      label(for='due_date') Due Date:
-      input(type='date' id='due_date' name='due_date')
-      button(type='submit') Add Task
+              form(action=`/user-profile/${userId}/tasks/${task.id}/completed`, method="POST")
+                input(type="hidden", name="taskId", value=`${task.id}`)
+                button(type="submit", name="completed", value="true") Mark as completed
+
 
   form(method='get' action=`/user-profile/${user.id}`)
     button(type='submit') Back to Profile    
 
   script.
+    const userId = '#{user.id}';
+    function deleteTask(taskId) {
+      console.log('Deleting task with ID:', taskId);
+
+      fetch(`/user-profile/${userId}/tasks/${taskId}`, {
+        method: 'DELETE'
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Task deleted successfully');
+          window.location.reload();
+        } else {
+          throw new Error('Failed to delete task');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+
     const addTaskBtn = document.getElementById('add-task-btn');
+    const addTaskOverlay = document.getElementById('add-task-overlay');
     const addTaskForm = document.getElementById('add-task-form');
+
     addTaskBtn.addEventListener('click', () => {
-      addTaskForm.hidden = !addTaskForm.hidden;
+      addTaskOverlay.classList.add('show');
+      addTaskForm.removeAttribute('hidden');
+      addTaskForm.reset();
+      addTaskForm.title.focus();
+    });
+
+    addTaskOverlay.addEventListener('click', event => {
+      if (event.target === addTaskOverlay) {
+        addTaskOverlay.classList.remove('show');
+        addTaskForm.setAttribute('hidden', '');
+      }
     });

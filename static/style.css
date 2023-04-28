@@ -470,7 +470,35 @@ footer p {
   padding: 10px;
 }
 
-=======
- color: green;
-}
+
+
 >>>>>>> Pavi_test-worked-on-by-Pavi-and-Anup
+
+/* Overlay for adding task btn */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.overlay.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#add-task-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#add-task-btn {
+  margin-bottom: 20px;
+}

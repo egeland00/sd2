@@ -38,9 +38,30 @@ class Task {
   }
 
   static async updateCompletedStatus(taskId, userId, completed) {
-    const updateTaskSql = 'UPDATE Task SET completed = ? WHERE id = ? AND user_id = ?';
-    await db.query(updateTaskSql, [completed, taskId, userId]);
+    try {
+      console.log('taskId:', taskId, 'userId:', userId, 'completed:', completed);
+      const completedValue = completed ? 1 : 0;
+  
+      const updateTaskSql = 'UPDATE Task SET completed = ? WHERE id = ? AND user_id = ? and completed = 0';
+  
+      if (completedValue === undefined || taskId === undefined || userId === undefined) {
+        throw new Error('Missing values in updateCompletedStatus');
+      }
+  
+      await db.query(updateTaskSql, [completedValue, taskId, userId]);
+    } catch (error) {
+      console.error('Error in updateCompletedStatus:', error);
+      throw error;
+    }
   }
+  
+  
+
+  
+  
+
+  
+  
   
   
 
