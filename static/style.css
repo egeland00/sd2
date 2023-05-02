@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 nav {
   display: flex;
   justify-content: space-between;
@@ -67,8 +66,6 @@ table.custom-table td {
   padding: 12px;
 }
 
-=======
->>>>>>> Pavi_test-worked-on-by-Pavi-and-Anup
 .user-profile-container {
   display: flex;
   justify-content: center;
@@ -100,11 +97,7 @@ table.custom-table td {
 }
 
 .user-details p {
-<<<<<<< HEAD
   margin-bottom: 0.2rem;
-=======
-  margin-bottom: 0.2rem;
->>>>>>> Pavi_test-worked-on-by-Pavi-and-Anup
 }
 
 .progress-bar {
@@ -117,7 +110,6 @@ table.custom-table td {
 .progress-bar-fill {
   height: 100%;
   background-color: #0fdc00;
-<<<<<<< HEAD
   border-radius: 5px;
 }
 
@@ -362,9 +354,6 @@ footer {
   text-align: center;
   padding: 10px;
   font-size: 14px;
-=======
-  border-radius: 5px;
->>>>>>> Pavi_test-worked-on-by-Pavi-and-Anup
 }
 
 .approaching-dates {

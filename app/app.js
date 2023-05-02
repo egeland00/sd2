@@ -121,7 +121,7 @@ try {
         if (match) {
             req.session.uid = uId;
             req.session.loggedIn = true;
-            console.log(req.session);
+            
             res.redirect('/user-profile/' + uId);
         }
         else {
@@ -160,7 +160,7 @@ app.get('/user-profile/:id/tasks', requireLogin, async (req, res) => {
     res.render('task', { title: 'Tasks', tasks: tasks, user: { id: userId }, loggedIn: loggedIn, loggedInUserId: loggedInUserId });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal server error');
+    
   }
 });
 
@@ -178,7 +178,7 @@ app.post('/user-profile/:id/tasks', requireLogin, async (req, res) => {
     res.redirect(`/user-profile/${userId}/tasks`);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal server error');
+    
   }
 });
 
@@ -197,7 +197,7 @@ app.get('/user-profile/:userId/tasks/:taskId', requireLogin, async (req, res) =>
     res.render('task', { title: 'Tasks', task: task, user: { id: userId }, loggedIn: loggedIn, loggedInUserId: loggedInUserId });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal server error');
+    
   }
 });
 
@@ -214,7 +214,7 @@ app.delete('/user-profile/:userId/tasks/:taskId/delete', requireLogin, async (re
     res.redirect(`/user-profile/${userId}/tasks`);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal server error');
+    
   }
 });
 
