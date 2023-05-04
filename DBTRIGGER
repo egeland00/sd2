@@ -1,0 +1,14 @@
+DELIMITER //
+CREATE TRIGGER trg_points_update
+AFTER UPDATE ON Task
+FOR EACH ROW
+BEGIN
+  IF NEW.completed = 1 AND OLD.completed != 1 THEN
+    UPDATE User
+    SET points = points + 1,
+        level = IF(points + 1 >= 10, level + 1, level),
+        points = IF(points + 1 >= 10, 0, points + 1)
+    WHERE id = NEW.user_id;
+  END IF;
+END //
+DELIMITER ;
