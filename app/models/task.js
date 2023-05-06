@@ -48,12 +48,20 @@ class Task {
         throw new Error('Missing values in updateCompletedStatus');
       }
   
-      await db.query(updateTaskSql, [completedValue, taskId, userId]);
+      const results = await db.query(updateTaskSql, [completedValue, taskId, userId]);
+  
+      if (completed && results.affectedRows === 1) {
+        const updateUserPointsSql = 'UPDATE User SET points = points + 1 WHERE id = ?';
+        await db.query(updateUserPointsSql, [userId]);
+      }
     } catch (error) {
       console.error('Error in updateCompletedStatus:', error);
       throw error;
     }
   }
+  
+  
+  
   
   
 

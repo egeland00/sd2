@@ -2,6 +2,7 @@ extends layout
 
 block content
   .tasks-container
+    h2= "Tasks"
     button#add-task-btn(type='button') Create New Task
     .overlay#add-task-overlay
       form#add-task-form(method='post' action=`/user-profile/${user.id}/tasks` hidden)
@@ -29,12 +30,14 @@ block content
             td= task.category
             td= new Date(task.due_date).toLocaleDateString()
             td
-              a(href=`/tasks/${task.id}`) Edit
-              form(action=`/user-profile/${user.id}/tasks/${task.id}/delete?_method=DELETE`, method='POST')
-                button(type='submit') Delete
-              form(action=`/user-profile/${userId}/tasks/${task.id}/completed`, method="POST")
-                input(type="hidden", name="taskId", value=`${task.id}`)
-                button(type="submit", name="completed", value="true") Mark as completed
+              .task-actions
+                form(action=`/user-profile/${user.id}/tasks/${task.id}/delete?_method=DELETE`, method='POST')
+                  input(type='image', src='/Images/remove.png', alt='Delete', width='30', height='30')
+                form(action=`/user-profile/${userId}/tasks/${task.id}/completed`, method="POST")
+                  input(type="hidden", name="taskId", value=`${task.id}`)
+                  button.mark-as-completed(type="submit", name="completed", value="true") Mark as complete
+
+
 
 
   form(method='get' action=`/user-profile/${user.id}`)

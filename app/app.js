@@ -33,7 +33,7 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// Routes
+
 // Routes
 app.get("/", function(req, res) {
   const loggedIn = req.session.uid ? true : false;
@@ -49,6 +49,7 @@ function requireLogin(req, res, next) {
   }
 }
 
+// profile page
 app.get('/user-profile/:id', requireLogin, async function(req, res) {
   try {
     const loggedIn = req.session.uid ? true : false;
@@ -70,7 +71,6 @@ app.get('/user-profile/:id', requireLogin, async function(req, res) {
   
   
   
-//REGISER DONE MODEL
 
 // Register Page
 app.get('/register', function (req, res) {
@@ -143,10 +143,15 @@ app.get('/logout', function (req, res) {
   res.redirect('/');
 });
   
-// set up a route for rendering a single incomplete task
+
+
+// get task page
 app.get('/user-profile/:id/tasks', requireLogin, async (req, res) => {
   try {
     const userId = req.params.id;
+
+
+    
 
     // Call the getIncompleteTasks method directly using the Task class
     const tasks = await Task.getIncompleteTasks(userId);
@@ -164,12 +169,14 @@ app.get('/user-profile/:id/tasks', requireLogin, async (req, res) => {
 });
 
 
+
 // adding task
 
 app.post('/user-profile/:id/tasks', requireLogin, async (req, res) => {
   try {
     const { title, description, category, due_date } = req.body;
     const userId = req.params.id;
+    
 
     // Call the addTask method using the Task class
     await Task.addTask(userId, title, description, category, due_date);
@@ -234,13 +241,9 @@ app.post('/user-profile/:userId/tasks/:taskId/completed', requireLogin, async (r
     res.redirect(`/user-profile/${userId}/tasks`);
   } catch (err) {
     console.error('Error in updating task completion status:', err);
-    if (DEBUG) {
-      res.status(500).send(`Internal server error: ${err.message}`);
-    } else {
-      res.status(500).send('Internal server error');
-    }
   }
 });
+
 
 
 

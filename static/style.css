@@ -144,6 +144,7 @@ body {
 }
 table.custom-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   border: 1px solid #ddd;
   font-size: 1em;
@@ -165,6 +166,7 @@ table.custom-table tr:hover {
 }
 
 table.custom-table td {
+  word-wrap: break-word;
   border: 1px solid #ddd;
   padding: 12px;
 }
@@ -588,4 +590,18 @@ footer p {
 
 #add-task-btn {
   margin-bottom: 20px;
+}
+
+
+
+.task-actions {
+  display: flex;
+}
+
+
+button.mark-as-completed {
+  background-color: #4CAF50; 
+  color: white;
+  border: none;
+  cursor: pointer;
 }
