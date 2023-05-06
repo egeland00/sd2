@@ -160,7 +160,6 @@ app.get('/user-profile/:id/tasks', requireLogin, async (req, res) => {
     res.render('task', { title: 'Tasks', tasks: tasks, user: { id: userId }, loggedIn: loggedIn, loggedInUserId: loggedInUserId });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal server error');
   }
 });
 
@@ -178,7 +177,6 @@ app.post('/user-profile/:id/tasks', requireLogin, async (req, res) => {
     res.redirect(`/user-profile/${userId}/tasks`);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal server error');
   }
 });
 

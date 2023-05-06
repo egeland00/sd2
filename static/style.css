@@ -1,4 +1,106 @@
-<<<<<<< HEAD
+main.section1 {
+  background-color: #daddd8;
+  text-align: center;
+  padding: 200px;
+  border-radius: 0px;
+  box-shadow: 0px 0px 2px rgba(0,0,0,0.1); 
+}
+main.section1 h2 {
+  font-size: 60px;
+}
+main.section1 p {
+  font-size: 20px;
+}
+main.section1 a.btn-lg {
+  background-color: #003249;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+
+}
+ main.section2 {
+    background-color: ##EEF0F2;
+    padding: 50px;
+    text-align: center;
+  }
+
+ main.section2 h3 {
+  font-size: 36px; 
+  margin-bottom: 20px;
+}
+ main.section2 ul {
+  list-style: none; 
+  display: flex; 
+  justify-content: space-around; 
+  align-items: center;
+}
+  main.section2 li {
+  max-width: 300px;
+}
+  main.section2 h4 {
+  font-size: 20px; 
+  font-weight:bold
+}
+ main.section2 ul li img {
+  width:80px; 
+  height: 80px;
+}
+  main.section2 p {
+  font-size: 16px;
+}
+
+ main.section3 {
+    background-color: #daddd8;
+    padding: 50px;
+    text-align : center;
+    justify-content: space-around;   
+}
+main.section3 ul {
+  display: flex; 
+  list-style: none; 
+  justify-content: space-around; 
+  align-items: center;
+}
+main.section3 ul li {
+  max-width: 600px; 
+  justify-content: space-around; 
+  align-items: center;
+}
+ main.section3 ul li h3 {
+  font-size: 36px; 
+  margin-bottom: 20px;  
+}
+ main.section3 ul li p {
+  font-size: 16px; 
+  
+}
+  main.section3 ul li p  {
+  font-size: 16px; 
+}
+
+main.section3 ul:nth-child(2) li {
+  max-width: 300px
+}
+main.section3 ul:nth-child(2) li img {
+  width: 80px; 
+  height: 80px;
+}
+
+main.section3 ul:nth-child(2) li h4 {
+  font-size: 20px; 
+  font-weight:bold; 
+  margin-bottom: 10px;
+}
+main.section3 ul:nth-child(2) li p {
+  font-size: 16px;  
+}
+main.section3 ul:nth-child(2) li:nth-child(2) {
+  max-width: 300px;  
+}
+
+
+
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -67,8 +169,6 @@ table.custom-table td {
   padding: 12px;
 }
 
-=======
->>>>>>> Pavi_test-worked-on-by-Pavi-and-Anup
 .user-profile-container {
   display: flex;
   justify-content: center;
@@ -100,11 +200,7 @@ table.custom-table td {
 }
 
 .user-details p {
-<<<<<<< HEAD
   margin-bottom: 0.2rem;
-=======
-  margin-bottom: 0.2rem;
->>>>>>> Pavi_test-worked-on-by-Pavi-and-Anup
 }
 
 .progress-bar {
@@ -117,7 +213,6 @@ table.custom-table td {
 .progress-bar-fill {
   height: 100%;
   background-color: #0fdc00;
-<<<<<<< HEAD
   border-radius: 5px;
 }
 
@@ -362,9 +457,6 @@ footer {
   text-align: center;
   padding: 10px;
   font-size: 14px;
-=======
-  border-radius: 5px;
->>>>>>> Pavi_test-worked-on-by-Pavi-and-Anup
 }
 
 .approaching-dates {
