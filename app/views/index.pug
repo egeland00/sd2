@@ -2,61 +2,36 @@ extends layout
 
 block content
   style.
-
-      main.section1 {
-        background-color: #daddd8;
-        text-align: center;
-        padding: 200px;
-        border-radius: 0px;
-        box-shadow: 0px 0px 2px rgba(0,0,0,0.1);
-       
-      }
-       main.section2 {
-          background-color: ##EEF0F2;
-          padding: 50px;
-          text-align: center;
-        }
-      
-       main.section3 {
-          background-color: #daddd8;
-          padding: 50px;
-          text-align : center;
-          justify-content: space-around; 
-      
-          
-        }
-     
-
-   
+ 
   main
     main.section1
-      h2(style ='font-size: 60px;') Manage Your Task Productively
-      p(style ='font-size: 20px; ') TaskHive is the ultimate task management app that helps you streamline your workflow and get more done in less time.
-      a.btn-lg(href='/register' style='background-color: #003249;  color: white; font-size: 20px; font-weight:bold') Get Started
+      h2 Manage Your Task Productively
+      p TaskHive is the ultimate task management app that helps you streamline your workflow and get more done in less time.
+      a.btn-lg(href='/register' ) Get Started
     main.section2
-      h3(style ='font-size: 36px; margin-bottom: 20px; ') Our Features 
-      ul(style='list-style: none; display: flex; justify-content: space-around ; align-items: center;')
-        li(style='max-width: 300px;')
-          img(src='/Images/todo-list.gif' alt='Task Icon' style='width:80px; height: 80px;')
-          h4(style='font-size: 20px; font-weight:bold') Task Lists
-          p(style='font-size: 16px;') Organize your tasks into lists to keep track of your projects and priorities.
-        li(style='max-width: 300px;')
-          img(src='/Images/duedate.png' alt='Date Icon' style='width:80px; height: 80px;')
-          h4(style='font-size: 20px; font-weight:bold') Due Dates
-          p(style='font-size: 16px;')  Set due dates and reminders for your tasks to stay on track and meet your deadlines.
+      h3 Our Features 
+      ul
+        li
+          img(src='/Images/todo-list.gif' alt='Task Icon' )
+          h4 Task Lists
+          p Organize your tasks into lists to keep track of your projects and priorities.
+        li
+          img(src='/Images/duedate.png' alt='Date Icon')
+          h4 Due Dates
+          p Set due dates and reminders for your tasks to stay on track and meet your deadlines.
     main.section3
-      ul(style="display: flex; list-style: none; justify-content: space-around; align-items: center;")
-        li(style= 'max-width: 600px; justify-content: space-around; align-items: center;')
-          h3(style ='font-size: 36px; margin-bottom: 20px; ') Achievement System
-          p(style='font-size: 16px;') Level up your productivity by earning achievements and badges!
+      ul
+        li
+          h3 Achievement System
+          p Level up your productivity by earning achievements and badges!
             div.level-bar(style="align-items: center; margin-bottom: 40px; background-color: #F1E3E4; height: 10px; border-radius: 5px; max-width:600px ;")
               div.progress(style="width: 70%; height: 100%; border-radius: 5px; background-color: #003249; ")
-      ul(style="display: flex; list-style: none; justify-content: space-around; align-items: center;")
-        li(style= 'max-width: 300px')
-          img(src='/Images/trophy.png' alt='Achievement Icon' style='width: 80px; height: 80px;')
-          h4(style='font-size: 20px; font-weight:bold; margin-bottom: 10px;')  Complete Your First Task
-          p(style='font-size: 16px;') Congratulations! You've completed your first task in TaskHive. Keep up the good work!
-        li(style='max-width: 300px;')
-          img(src='/Images/celebrate.png' alt='Complete Task' style='width:80px; height: 80px;')
-          h4(style='font-size: 20px; font-weight:bold')   Complete 10 Tasks
-          p(style='font-size: 16px;')  Great job! You've completed 10 tasks in TaskHive. Keep going!
+      ul
+        li
+          img(src='/Images/trophy.png' alt='Achievement Icon')
+          h4 Complete Your First Task
+          p Congratulations! You've completed your first task in TaskHive. Keep up the good work!
+        li
+          img(src='/Images/celebrate.png' alt='Complete Task' )
+          h4 Complete 10 Tasks
+          p Great job! You've completed 10 tasks in TaskHive. Keep going!

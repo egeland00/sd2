@@ -1,3 +1,106 @@
+main.section1 {
+  background-color: #daddd8;
+  text-align: center;
+  padding: 200px;
+  border-radius: 0px;
+  box-shadow: 0px 0px 2px rgba(0,0,0,0.1); 
+}
+main.section1 h2 {
+  font-size: 60px;
+}
+main.section1 p {
+  font-size: 20px;
+}
+main.section1 a.btn-lg {
+  background-color: #003249;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+
+}
+ main.section2 {
+    background-color: #EEF0F2;
+    padding: 50px;
+    text-align: center;
+}
+
+ main.section2 h3 {
+  font-size: 36px; 
+  margin-bottom: 20px;
+}
+ main.section2 ul {
+  list-style: none; 
+  display: flex; 
+  justify-content: space-around; 
+  align-items: center;
+}
+  main.section2 li {
+  max-width: 300px;
+}
+  main.section2 h4 {
+  font-size: 20px; 
+  font-weight:bold
+}
+ main.section2 ul li img {
+  width:80px; 
+  height: 80px;
+}
+  main.section2 p {
+  font-size: 16px;
+}
+
+ main.section3 {
+    background-color: #daddd8;
+    padding: 50px;
+    text-align : center;
+    justify-content: space-around;   
+}
+main.section3 ul {
+  display: flex; 
+  list-style: none; 
+  justify-content: space-around; 
+  align-items: center;
+}
+main.section3 ul li {
+  max-width: 600px; 
+  justify-content: space-around; 
+  align-items: center;
+}
+ main.section3 ul li h3 {
+  font-size: 36px; 
+  margin-bottom: 20px;  
+}
+ main.section3 ul li p {
+  font-size: 16px; 
+  
+}
+  main.section3 ul li p  {
+  font-size: 16px; 
+}
+
+main.section3 ul:nth-child(2) li {
+  max-width: 300px
+}
+main.section3 ul:nth-child(2) li img {
+  width: 80px; 
+  height: 80px;
+}
+
+main.section3 ul:nth-child(2) li h4 {
+  font-size: 20px; 
+  font-weight:bold; 
+  margin-bottom: 10px;
+}
+main.section3 ul:nth-child(2) li p {
+  font-size: 16px;  
+}
+main.section3 ul:nth-child(2) li:nth-child(2) {
+  max-width: 300px;  
+}
+
+
+
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -390,7 +493,6 @@ footer {
 }
 
 .approaching-dates li .due-date.green {
-<<<<<<< HEAD
   color: green;
 }
 
@@ -406,8 +508,8 @@ footer {
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   margin-bottom: 20px;
-  max-width: 600px; /* optional */
-  margin: 0 auto; /* optional */
+  max-width: 600px; 
+  margin: 0 auto; 
 }
 
 .task-details-container input[type="text"],
@@ -460,10 +562,6 @@ footer p {
 }
 
 
-
->>>>>>> Pavi_test-worked-on-by-Pavi-and-Anup
-
-/* Overlay for adding task btn */
 .overlay {
   display: none;
   position: fixed;
