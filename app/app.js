@@ -5,6 +5,7 @@ const db = require('./services/db');
 // Create express app
 const app = express();
 
+// Used for Debugging
 const DEBUG = true;
 // Set view engine and views directory
 app.set('view engine', 'pug');
@@ -69,8 +70,6 @@ app.get('/user-profile/:id', requireLogin, async function(req, res) {
   }
 });;
   
-  
-  
 
 // Register Page
 app.get('/register', function (req, res) {
@@ -79,17 +78,13 @@ app.get('/register', function (req, res) {
   res.render('register', { title: 'Register', loggedIn: loggedIn, userId: userId });
 });
 
-
+// Setting password for sign up process
 app.post('/set-password', async function (req, res) {
   const params = req.body;
   const user = new User(params.email);
   try {
     const uId = await user.getIdFromEmail();
-    if (uId) {
-      // If a valid, existing user is found, set the password and redirect to the users single-student page
-      await user.setUserPassword(params.password);
-      res.send('COME BACK TO ADDING ROUTE FOR USER TASK PAGE!!!!!!!');
-    } else {
+    if (!uId) {
       // If no existing user is found, add a new one
       // Pass firstname, lastname, and password when calling addUser()
       const newId = await user.addUser(params.firstname, params.lastname, params.password);
@@ -100,7 +95,7 @@ app.post('/set-password', async function (req, res) {
   }
 });
 
-
+// Render login page
 app.get('/login', function(req, res) {
   const loggedIn = req.session.uid ? true : false;
   const userId = req.session.uid || null;
@@ -109,7 +104,6 @@ app.get('/login', function(req, res) {
 });
  
 
-  
 // Check submitted email and password pair
 app.post('/authenticate', async function (req, res) {
 params = req.body;
@@ -144,14 +138,10 @@ app.get('/logout', function (req, res) {
 });
   
 
-
 // get task page
 app.get('/user-profile/:id/tasks', requireLogin, async (req, res) => {
   try {
     const userId = req.params.id;
-
-
-    
 
     // Call the getIncompleteTasks method directly using the Task class
     const tasks = await Task.getIncompleteTasks(userId);
@@ -169,14 +159,11 @@ app.get('/user-profile/:id/tasks', requireLogin, async (req, res) => {
 });
 
 
-
 // adding task
-
 app.post('/user-profile/:id/tasks', requireLogin, async (req, res) => {
   try {
     const { title, description, category, due_date } = req.body;
-    const userId = req.params.id;
-    
+    const userId = req.params.id
 
     // Call the addTask method using the Task class
     await Task.addTask(userId, title, description, category, due_date);
@@ -188,7 +175,7 @@ app.post('/user-profile/:id/tasks', requireLogin, async (req, res) => {
   }
 });
 
-
+// Rendering task page
 app.get('/user-profile/:userId/tasks/:taskId', requireLogin, async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -207,10 +194,8 @@ app.get('/user-profile/:userId/tasks/:taskId', requireLogin, async (req, res) =>
   }
 });
 
-
-
 // set up a route to delete a task
-app.delete('/user-profile/:userId/tasks/:taskId/delete', requireLogin, async (req, res) => {
+app.get('/user-profile/:userId/tasks/:taskId/delete', requireLogin, async (req, res) => {
   try {
     const userId = req.params.userId;
     const taskId = req.params.taskId;
@@ -223,9 +208,6 @@ app.delete('/user-profile/:userId/tasks/:taskId/delete', requireLogin, async (re
     
   }
 });
-
-
-
 
 // set up a route to update the completed status of a task
 app.post('/user-profile/:userId/tasks/:taskId/completed', requireLogin, async (req, res) => {
@@ -244,24 +226,15 @@ app.post('/user-profile/:userId/tasks/:taskId/completed', requireLogin, async (r
   }
 });
 
-
-
-
-// help server not to crash
-process.on('unhandledRejection', (reason, p) => {
-  console.log('Unhandled Rejection at:', p, 'reason:', reason);
-  // Application specific logging, throwing an error, or other logic here
+// Contact route
+app.get('/contact', (req, res) => {
+  res.render('contact');
 });
 
-
-
-
-
-
-
-
-
-
+// About us route
+app.get('/aboutus', (req, res) => {
+  res.render('about');
+});
 
 // Start server
 app.listen(3000, function () {

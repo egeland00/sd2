@@ -12,7 +12,8 @@ class User {
   constructor(email) {
     this.email = email;
   }
-
+  
+  // Get User data through user's id from database
   static async getUserById(id) {
     const userSql = 'SELECT * FROM User WHERE id = ?';
     const user = await db.query(userSql, [id]);
