@@ -15,7 +15,6 @@ app.use(flash());
 // Get the functions in the db.js file to use
 const db = require('./services/db');
 
-
 // Create a route for root
 app.get("/", function(req, res) {
     res.render("index");
@@ -50,7 +49,6 @@ try {
  res.status(500).send('Internal server error');
 }
 });
-
   
 
 app.post('/register', async function(req, res) {
@@ -94,8 +92,6 @@ app.post('/login', async function(req, res) {
     res.status(500).send('Internal server error');
   }
 });
-
-
 
 
 // Start server on port 3000

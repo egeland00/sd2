@@ -29,9 +29,9 @@ block content
             td= task.description
             td= task.category
             td= new Date(task.due_date).toLocaleDateString()
-            td
+            td  
               .task-actions
-                form(action=`/user-profile/${user.id}/tasks/${task.id}/delete?_method=DELETE`, method='POST')
+                form(action=`/user-profile/${task.user_id}/tasks/${task.id}/delete`)
                   input(type='image', src='/Images/remove.png', alt='Delete', width='30', height='30')
                 form(action=`/user-profile/${userId}/tasks/${task.id}/completed`, method="POST")
                   input(type="hidden", name="taskId", value=`${task.id}`)
@@ -63,7 +63,8 @@ block content
         console.error(error);
       });
     }
-
+  
+        
     const addTaskBtn = document.getElementById('add-task-btn');
     const addTaskOverlay = document.getElementById('add-task-overlay');
     const addTaskForm = document.getElementById('add-task-form');

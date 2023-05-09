@@ -1,0 +1,16 @@
+extends layout
+
+block content
+ .container
+    h1 Contact Us
+    form(action="/submit", method="POST")
+      .form-group
+        label(for="name") Name:
+        input#name(type="text", name="name", placeholder="Enter your name", required)
+      .form-group
+        label(for="email") Email:
+        input#email(type="email", name="email", placeholder="Enter your email", required)
+      .form-group
+        label(for="message") Message:
+            textarea#message(name="message", rows="4", placeholder="Type your message here", required)
+      button(type="submit") Send
